@@ -88,6 +88,8 @@ It appears to be more of a demo/simulation of a weather-AI application rather th
 - [Muhammed Yazir]: [Contributed design]
 - [Govind Dileep]: [Contributed idea]
 
+## Live Link
+[https://users30.vercel.app/]
 ---
 Made with ❤️ at TinkerHub Useless Projects 
 
@@ -95,7 +97,6 @@ Made with ❤️ at TinkerHub Useless Projects
 ![Static Badge](https://img.shields.io/badge/UselessProjects--26-26?link=https%3A%2F%2Ftinkerhub.org%2Fevents%2F1M8ORET9A1%2Fuseless-projects-3.0)
 
 
-[Live link]: [https://users30.vercel.app/]
 
 
 
