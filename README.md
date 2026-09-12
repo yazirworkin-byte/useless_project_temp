@@ -85,9 +85,8 @@ It appears to be more of a demo/simulation of a weather-AI application rather th
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- [Muhammed Yazir]: [Contributed design]
+- [Govind Dileep]: [Contributed idea]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
@@ -96,7 +95,7 @@ Made with ❤️ at TinkerHub Useless Projects
 ![Static Badge](https://img.shields.io/badge/UselessProjects--26-26?link=https%3A%2F%2Ftinkerhub.org%2Fevents%2F1M8ORET9A1%2Fuseless-projects-3.0)
 
 
-
+[Live link]: [https://users30.vercel.app/]
 
 
 
