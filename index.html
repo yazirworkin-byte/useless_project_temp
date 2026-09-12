@@ -1,1 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Weather.exe</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, #172554, transparent 40%),
+        radial-gradient(circle at bottom right, #3b0764, transparent 40%),
+        #070b14;
+    color: white;
+    min-height: 100vh;
+    padding: 45px 20px;
+}
+
+/* MAIN */
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 45px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 34px;
+    letter-spacing: 2px;
+}
+
+.logo p {
+    margin-top: 8px;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.online {
+    color: #4ade80;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.online::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    margin-right: 6px;
+    box-shadow: 0 0 12px #4ade80;
+}
+
+/* HERO */
+
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-items: stretch;
+}
+
+/* WEATHER CARD */
+
+.weather-card {
+    background: rgba(31, 41, 55, 0.72);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 25px;
+    padding: 35px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    transition: 0.3s;
+}
+
+.weather-card:hover {
+    transform: translateY(-3px);
+}
+
+.label {
+    color: #a5b4fc;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+#weather {
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 18px;
+    line-height: 1.15;
+}
+
+.location {
+    margin-top: 15px;
+    color: #cbd5e1;
+}
+
+/* AI CARD */
+
+.ai-card {
+    background: linear-gradient(
+        145deg,
+        rgba(55,65,81,0.85),
+        rgba(31,41,55,0.75)
+    );
+
+    border-radius: 25px;
+    padding: 30px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+.ai-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ai-subtitle {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 5px;
+}
+
+#analysis {
+    margin-top: 25px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.fake-reasoning {
+    margin-top: 25px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.fake-reasoning-title {
+    color: #f9a8d4;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.stat {
+    background: rgba(55,65,81,0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 20px;
+    text-align: center;
+}
+
+.stat-title {
+    font-size: 11px;
+    color: #9ca3af;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+/* CONFIDENCE */
+
+.confidence {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.confidence-title {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.progress {
+    height: 10px;
+    background: #374151;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 20px;
+
+    background: linear-gradient(
+        90deg,
+        #22d3ee,
+        #a78bfa,
+        #f472b6
+    );
+
+    transition: width 1s ease;
+}
+
+/* EXTRA INFO */
+
+.extra-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.extra {
+    background: rgba(55,65,81,0.65);
+    padding: 18px;
+    border-radius: 15px;
+    color: #d1d5db;
+    font-size: 14px;
+}
+
+.extra strong {
+    color: white;
+}
+
+/* BUTTON */
+
+button {
+    display: block;
+    margin: 30px auto 0;
+
+    border: none;
+    padding: 17px 35px;
+
+    border-radius: 14px;
+
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    background: linear-gradient(
+        90deg,
+        #38bdf8,
+        #818cf8,
+        #ec4899
+    );
+
+    box-shadow:
+        0 8px 30px rgba(99,102,241,0.35);
+
+    transition: 0.25s;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 12px 35px rgba(236,72,153,0.4);
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+/* FUNNY SECTION */
+
+.fun-section {
+    margin-top: 25px;
+
+    background: rgba(31,41,55,0.7);
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.fun-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.fun-text {
+    color: #d1d5db;
+    line-height: 1.6;
+}
+
+/* HISTORY */
+
+.history {
+    margin-top: 25px;
+
+    background: rgba(31,41,55,0.7);
+
+    border-radius: 20px;
+
+    padding: 25px;
+}
+
+.history h2 {
+    margin-top: 0;
+}
+
+.history-item {
+    padding: 13px 0;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    display: flex;
+    justify-content: space-between;
+
+    color: #d1d5db;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+/* ACHIEVEMENT */
+
+.achievement {
+    margin-top: 25px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(59,130,246,0.15),
+            rgba(236,72,153,0.15)
+        );
+
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.badge {
+    font-size: 35px;
+}
+
+.achievement-text {
+    margin-top: 8px;
+    color: #d1d5db;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    margin-top: 35px;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+/* MOBILE */
+
+@media(max-width: 750px) {
+
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .extra-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #weather {
+        font-size: 40px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">
+
+            <h1>🌦️ WEATHER.EXE</h1>
+
+            <p>
+                THE WORLD'S LEAST ACCURATE WEATHER PREDICTION SYSTEM
+            </p>
+
+            <p>
+                Powered by absolutely questionable artificial intelligence.
+            </p>
+
+        </div>
+
+        <div class="online">
+            SYSTEM ONLINE
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="hero">
+
+        <!-- WEATHER -->
+
+        <div class="weather-card">
+
+            <div class="label">
+                PREDICTED WEATHER
+            </div>
+
+            <div id="weather">
+                Press the button
+            </div>
+
+            <div class="location">
+                📍 Somewhere on Earth
+            </div>
+
+        </div>
+
+
+        <!-- AI -->
+
+        <div class="ai-card">
+
+            <div class="ai-title">
+                🤖 AI ANALYSIS
+            </div>
+
+            <div class="ai-subtitle">
+                Extremely questionable intelligence
+            </div>
+
+            <div id="analysis">
+                Our AI is waiting for something to go wrong.
+            </div>
+
+            <div class="fake-reasoning">
+
+                <div class="fake-reasoning-title">
+                    🧠 FAKE REASONING
+                </div>
+
+                <div id="reasoning">
+                    Scientific data will probably be ignored.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-title">
+                🌡️ TEMPERATURE
+            </div>
+
+            <div class="stat-value" id="temperature">
+                --°C
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                💧 HUMIDITY
+            </div>
+
+            <div class="stat-value" id="humidity">
+                --%
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                🎯 ACCURACY
+            </div>
+
+            <div class="stat-value" id="accuracy">
+                --%
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONFIDENCE -->
+
+    <div class="confidence">
+
+        <div class="confidence-title">
+
+            Confidence:
+            <strong id="confidence">
+                🤷
+            </strong>
+
+        </div>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="confidenceBar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- EXTRA -->
+
+    <div class="extra-grid">
+
+        <div class="extra">
+
+            🛰️ Satellite Status:
+            <strong id="satellite">
+                Waiting for signal...
+            </strong>
+
+        </div>
+
+        <div class="extra">
+
+            🌀 Chaos Level:
+            <strong id="chaos">
+                UNKNOWN
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- BUTTON -->
+
+    <button onclick="predictWeather()">
+
+        🔮 PREDICT WEATHER
+
+    </button>
+
+
+    <!-- FUNNY INFORMATION -->
+
+    <div class="fun-section">
+
+        <div class="fun-title">
+            🎒 What should you carry?
+        </div>
+
+        <div
+            class="fun-text"
+            id="carry">
+            Click predict and let our highly unreliable AI decide.
+        </div>
+
+    </div>
+
+
+    <!-- HISTORY -->
+
+    <div class="history">
+
+        <h2>
+            📜 Prediction History
+        </h2>
+
+        <div id="historyList">
+
+            No predictions yet.
+
+        </div>
+
+    </div>
+
+
+    <!-- ACHIEVEMENT -->
+
+    <div class="achievement">
+
+        <div class="badge">
+            🏆
+        </div>
+
+        <strong>
+            WEATHER SURVIVOR
+        </strong>
+
+        <div
+            class="achievement-text"
+            id="achievement">
+            Make predictions to unlock completely useless achievements.
+        </div>
+
+    </div>
+
+
+    <footer>
+
+        WEATHER.EXE © 2026
+        <br>
+        Accuracy not guaranteed. Sanity not included.
+
+    </footer>
+
+</div>
+
+
+<script>
+
+let history = [];
+
+let predictionCount = 0;
+
+
+function predictWeather() {
+
+    const weather = [
+
+        "☀️ Definitely Sunny",
+
+        "🌧️ Heavy Rain Probably",
+
+        "☁️ Cloudy Because Clouds",
+
+        "❄️ Snow Expected",
+
+        "🌪️ Possible Chaos",
+
+        "🥵 Extremely Hot",
+
+        "🌈 Rainbow Maybe",
+
+        "👽 Alien Storm Incoming",
+
+        "🌊 Ocean Falling From Sky",
+
+        "🤷 Weather.exe Has No Idea",
+
+        "🌫️ Fog Doing Something",
+
+        "⚡ Electricity Is Feeling Angry"
+
+    ];
+
+
+    const analysis = [
+
+        "Our AI has absolutely no idea what is happening.",
+
+        "The clouds looked suspicious today.",
+
+        "Our AI stared at the sky for 4 seconds.",
+
+        "Weather experts were unavailable, so we guessed.",
+
+        "The atmosphere sent us a message. We ignored it.",
+
+        "Our highly advanced AI flipped a coin.",
+
+        "Satellite data was consulted. Probably.",
+
+        "Someone requested a rainbow from the weather department.",
+
+        "The weather refused to cooperate.",
+
+        "Our AI has decided to trust its feelings."
+
+    ];
+
+
+    const reasoning = [
+
+        "Scientific data will probably be ignored.",
+
+        "A bird flew left. This seems important.",
+
+        "The sky looked slightly suspicious.",
+
+        "Our intern said it might rain.",
+
+        "We asked the clouds. They refused to comment.",
+
+        "A random number generator felt confident.",
+
+        "Evidence: Trust me bro.",
+
+        "The moon was looking at us funny."
+
+    ];
+
+
+    const carry = [
+
+        "☂️ Umbrella — just in case the sky changes its mind.",
+
+        "🧥 Jacket — because the AI has trust issues.",
+
+        "🕶️ Sunglasses — confidence is more important than accuracy.",
+
+        "🩴 Slippers — scientific equipment is unnecessary.",
+
+        "🧢 Hat — protects you from questionable predictions.",
+
+        "🎒 Everything — our AI refuses to take responsibility."
+
+    ];
+
+
+    const chaosLevels = [
+
+        "LOW",
+
+        "SLIGHTLY WEIRD",
+
+        "QUESTIONABLE",
+
+        "HIGH",
+
+        "TOTAL CHAOS",
+
+        "THE SKY HAS GIVEN UP"
+
+    ];
+
+
+    const satelliteMessages = [
+
+        "Searching for signal...",
+
+        "Signal found. Maybe.",
+
+        "Satellite is confused.",
+
+        "Satellite requested a coffee.",
+
+        "Satellite has stopped caring.",
+
+        "Satellite data: LOL"
+
+    ];
+
+
+    const button =
+        document.querySelector("button");
+
+
+    const weatherBox =
+        document.getElementById("weather");
+
+    const temperatureBox =
+        document.getElementById("temperature");
+
+    const humidityBox =
+        document.getElementById("humidity");
+
+    const accuracyBox =
+        document.getElementById("accuracy");
+
+    const confidenceBox =
+        document.getElementById("confidence");
+
+    const confidenceBar =
+        document.getElementById("confidenceBar");
+
+    const analysisBox =
+        document.getElementById("analysis");
+
+    const reasoningBox =
+        document.getElementById("reasoning");
+
+    const carryBox =
+        document.getElementById("carry");
+
+    const satelliteBox =
+        document.getElementById("satellite");
+
+    const chaosBox =
+        document.getElementById("chaos");
+
+
+    /* PROCESSING */
+
+    button.innerHTML =
+        "🤖 CONSULTING QUESTIONABLE AI...";
+
+    button.disabled = true;
+
+
+    weatherBox.innerHTML =
+        "🔄 Scanning atmosphere...";
+
+
+    analysisBox.innerHTML =
+        "🧠 Asking the clouds...";
+
+
+    satelliteBox.innerHTML =
+        "Searching for signal...";
+
+
+    chaosBox.innerHTML =
+        "CALCULATING...";
+
+
+    setTimeout(function() {
+
+        analysisBox.innerHTML =
+            "🛰️ Consulting satellite data...";
+
+    }, 700);
+
+
+    setTimeout(function() {
+
+        analysisBox.innerHTML =
+            "🤔 Ignoring scientific evidence...";
+
+    }, 1400);
+
+
+    setTimeout(function() {
+
+
+        predictionCount++;
+
+
+        const randomWeather =
+            weather[
+                Math.floor(
+                    Math.random() * weather.length
+                )
+            ];
+
+
+        const randomAnalysis =
+            analysis[
+                Math.floor(
+                    Math.random() * analysis.length
+                )
+            ];
+
+
+        const randomReasoning =
+            reasoning[
+                Math.floor(
+                    Math.random() * reasoning.length
+                )
+            ];
+
+
+        const randomCarry =
+            carry[
+                Math.floor(
+                    Math.random() * carry.length
+                )
+            ];
+
+
+        const randomChaos =
+            chaosLevels[
+                Math.floor(
+                    Math.random() * chaosLevels.length
+                )
+            ];
+
+
+        const randomSatellite =
+            satelliteMessages[
+                Math.floor(
+                    Math.random() *
+                    satelliteMessages.length
+                )
+            ];
+
+
+        const temperature =
+            Math.floor(
+                Math.random() * 45
+            ) + 5;
+
+
+        const humidity =
+            Math.floor(
+                Math.random() * 101
+            );
+
+
+        const accuracy =
+            (Math.random() * 0.1)
+            .toFixed(2);
+
+
+        const confidence =
+            Math.floor(
+                Math.random() * 101
+            );
+
+
+        /* UPDATE */
+
+        weatherBox.innerHTML =
+            randomWeather;
+
+
+        temperatureBox.innerHTML =
+            temperature + "°C";
+
+
+        humidityBox.innerHTML =
+            humidity + "%";
+
+
+        accuracyBox.innerHTML =
+            accuracy + "%";
+
+
+        confidenceBox.innerHTML =
+            confidence + "%";
+
+
+        confidenceBar.style.width =
+            confidence + "%";
+
+
+        analysisBox.innerHTML =
+            randomAnalysis;
+
+
+        reasoningBox.innerHTML =
+            randomReasoning;
+
+
+        carryBox.innerHTML =
+            randomCarry;
+
+
+        satelliteBox.innerHTML =
+            randomSatellite;
+
+
+        chaosBox.innerHTML =
+            randomChaos;
+
+
+        /* HISTORY */
+
+        history.unshift({
+
+            weather: randomWeather,
+
+            temperature: temperature,
+
+            confidence: confidence
+
+        });
+
+
+        if(history.length > 5) {
+
+            history.pop();
+
+        }
+
+
+        const historyList =
+            document.getElementById(
+                "historyList"
+            );
+
+
+        historyList.innerHTML =
+            history.map(function(item) {
+
+                return `
+
+                <div class="history-item">
+
+                    <span>
+                        ${item.weather}
+                        — ${item.temperature}°C
+                    </span>
+
+                    <span>
+                        ${item.confidence}% confidence
+                    </span>
+
+                </div>
+
+                `;
+
+            }).join("");
+
+
+        /* ACHIEVEMENTS */
+
+        const achievement =
+            document.getElementById(
+                "achievement"
+            );
+
+
+        if(predictionCount >= 10) {
+
+            achievement.innerHTML =
+                "You have officially trusted Weather.exe 10 times. We are concerned.";
+
+        }
+
+        else if(predictionCount >= 5) {
+
+            achievement.innerHTML =
+                "You survived 5 predictions. Your confidence is questionable.";
+
+        }
+
+        else if(predictionCount >= 3) {
+
+            achievement.innerHTML =
+                "Three predictions already. You clearly don't learn.";
+
+        }
+
+        else {
+
+            achievement.innerHTML =
+                "Make predictions to unlock completely useless achievements.";
+
+        }
+
+
+        button.innerHTML =
+            "🔮 PREDICT AGAIN";
+
+
+        button.disabled = false;
+
+
+    }, 2100);
+
+}
+
+</script>
+
+</body>
+
+</html>
